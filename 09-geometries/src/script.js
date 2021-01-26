@@ -15,19 +15,21 @@ const scene = new THREE.Scene();
 // const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 6, 6);
 const geometry = new THREE.Geometry();
 
-const vertex1 = new THREE.Vector3(0, 0, 0);
-const vertex2 = new THREE.Vector3(1, 0, 0);
-const vertex3 = new THREE.Vector3(1, 1, 0);
-const vertex4 = new THREE.Vector3(0, 1, 0);
-
-const face = new THREE.Face3(0, 1, 2);
-
-geometry.vertices.push(vertex1);
-geometry.vertices.push(vertex2);
-geometry.vertices.push(vertex3);
-geometry.vertices.push(vertex4);
-
-geometry.faces.push(face);
+for (let i = 0; i < 50; i++) {
+  for (let j = 0; j < 3; j++) {
+    geometry.vertices.push(
+      new THREE.Vector3(
+        (Math.random() - 0.5) * 4,
+        (Math.random() - 0.5) * 4,
+        (Math.random() - 0.5) * 4
+      )
+    );
+  }
+  const verticesIndex = i * 3;
+  geometry.faces.push(
+    new THREE.Face3(verticesIndex, verticesIndex + 1, verticesIndex + 2)
+  );
+}
 
 const material = new THREE.MeshBasicMaterial({
   color: 0xff0000,
