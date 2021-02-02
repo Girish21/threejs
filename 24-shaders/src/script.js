@@ -21,27 +21,36 @@ const scene = new THREE.Scene();
  * Textures
  */
 const textureLoader = new THREE.TextureLoader();
+const falgTexture = textureLoader.load("/textures/India.jpg");
 
 /**
  * Test mesh
  */
 // Geometry
 const geometry = new THREE.PlaneGeometry(1, 1, 32, 32);
-const count = geometry.attributes.position.count;
-const randomness = new Float32Array(count);
-for (let i = 0; i < count; i++) randomness[i] = Math.random();
-geometry.setAttribute("aRandom", new THREE.BufferAttribute(randomness, 1));
 
 // Material
 const material = new THREE.RawShaderMaterial({
   vertexShader,
   fragmentShader,
-  wireframe: false,
-  transparent: true,
+  uniforms: {
+    uFrequency: {
+      value: new THREE.Vector2(10, 5),
+    },
+    uTime: {
+      value: 0,
+    },
+    uColor: { value: new THREE.Color("hotpink") },
+    uTexture: { value: falgTexture },
+  },
 });
+
+gui.add(material.uniforms.uFrequency.value, "x").min(0).max(20).step(0.01);
+gui.add(material.uniforms.uFrequency.value, "y").min(0).max(20).step(0.01);
 
 // Mesh
 const mesh = new THREE.Mesh(geometry, material);
+mesh.scale.y = 2 / 3;
 scene.add(mesh);
 
 /**
@@ -102,6 +111,8 @@ const tick = () => {
 
   // Update controls
   controls.update();
+
+  material.uniforms.uTime.value = elapsedTime;
 
   // Render
   renderer.render(scene, camera);
