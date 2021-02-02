@@ -30,7 +30,7 @@ const falgTexture = textureLoader.load("/textures/India.jpg");
 const geometry = new THREE.PlaneGeometry(1, 1, 32, 32);
 
 // Material
-const material = new THREE.RawShaderMaterial({
+const material = new THREE.ShaderMaterial({
   vertexShader,
   fragmentShader,
   uniforms: {
